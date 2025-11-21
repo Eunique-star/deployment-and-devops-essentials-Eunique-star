@@ -46,6 +46,15 @@ app.get('/', (req, res) => {
   res.send('MERN Blog API is running');
 });
 
+// Health Check Endpoint for Monitoring
+app.get('/health', (req, res) => {
+  res.status(200).json({ 
+    status: 'UP', 
+    timestamp: new Date(), 
+    uptime: process.uptime() 
+  });
+});
+
 // Error handling middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);
