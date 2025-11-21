@@ -23,7 +23,15 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use('/api/posts', postRoutes);
+
+// Health Check Endpoint for Monitoring
+app.get('/health', (req, res) => {
+  res.status(200).json({ 
+    status: 'UP', 
+    timestamp: new Date(), 
+    uptime: process.uptime() 
+  });
+});
 
 // Serve uploaded files
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
@@ -44,15 +52,6 @@ app.use('/api/auth', authRoutes);
 // Root route
 app.get('/', (req, res) => {
   res.send('MERN Blog API is running');
-});
-
-// Health Check Endpoint for Monitoring
-app.get('/health', (req, res) => {
-  res.status(200).json({ 
-    status: 'UP', 
-    timestamp: new Date(), 
-    uptime: process.uptime() 
-  });
 });
 
 // Error handling middleware
